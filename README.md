@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lupa - Cultural Alignment Platform
+
+Lupa is a modern web platform designed to evaluate cultural alignment between companies and individuals. The system is based on psychological archetypes, behavioral insights, and custom questionnaires. It matches a person's answers with the company's defined culture to generate compatibility scores and visual insights.
+
+## Features
+
+- **Cultural Alignment Assessment**: Evaluate how well candidates align with your company culture
+- **Interactive Dashboard**: Visualize match scores and cultural traits
+- **Candidate Management**: Track and review all evaluated candidates
+- **Company Profile**: Define your company's cultural values and priorities
+- **Detailed Reports**: Get comprehensive insights on alignment and potential friction points
+
+## Tech Stack
+
+- **Frontend**: Next.js with TypeScript and Tailwind CSS
+- **Authentication & Database**: Supabase
+- **Processing Logic**: n8n for chat workflows and evaluation processing
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18.x or later
+- Supabase account for authentication and database
+- n8n instance for processing logic (optional for local development)
+
+### Environment Setup
+
+Create a `.env.local` file in the root directory with the following variables:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Install dependencies
+npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Run the development server
+npm run dev
+```
 
-## Learn More
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `/src/app`: Next.js App Router pages and layouts
+- `/src/components`: Reusable UI components
+- `/src/lib/supabase`: Supabase client and utilities
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Pages
 
-## Deploy on Vercel
+| URL                         | Description                  |
+|----------------------------|------------------------------|
+| `/`                        | Landing Page (public)         |
+| `/login`                   | Login Page                   |
+| `/p/:token`                | Person Evaluation            |
+| `/p/:token/resultado`      | Person Result Page           |
+| `/dashboard`               | Company Dashboard            |
+| `/avaliacao`               | Company Evaluation Form      |
+| `/perfil`                  | Company Profile             |
+| `/pessoas`                 | People List                  |
+| `/resultado/:matchid`      | Final Match Result Page      |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Database Models
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `users`: Authentication and user roles
+- `companies`: Company information and profile
+- `questions`: Evaluation questions
+- `answers`: User responses to questions
+- `matches`: Match results between people and companies
+- `people`: Information about evaluated individuals
+
+## Deployment
+
+The application can be deployed to Vercel or any other platform that supports Next.js applications.
+
+```bash
+# Build for production
+npm run build
+
+# Start production server
+npm start
+```
