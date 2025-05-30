@@ -54,10 +54,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isLoading || props.disabled}
         {...props}
       >
-        {isLoading ? (
-          <span className="animate-spin mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
-        ) : null}
-        {children}
+        <span className="inline-flex items-center gap-2">
+          {isLoading ? (
+            <span className="animate-spin mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
+          ) : null}
+          {children}
+        </span>
       </Comp>
     );
   }

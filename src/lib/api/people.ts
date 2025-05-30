@@ -3,24 +3,9 @@ import { Person } from '../supabase/schema';
 import { v4 as uuidv4 } from 'uuid';
 
 // Create a new person entry with a random token
-export async function createPerson() {
+export async function createPerson(companyID: string) {
   try {
-    const { data: { user } } = await supabase.auth.getUser();
     
-    if (!user) {
-      throw new Error('Usuu00e1rio nu00e3o autenticado');
-    }
-    
-    // Get company ID
-    const { data: company, error: companyError } = await supabase
-      .from('companies')
-      .select('id')
-      .eq('user_id', user.id)
-      .single();
-    
-    if (companyError || !company) {
-      throw new Error('Perfil da empresa nu00e3o encontrado');
-    }
     
     // Generate a unique token
     const token = uuidv4();
@@ -29,7 +14,7 @@ export async function createPerson() {
       .from('people')
       .insert([{
         token,
-        company_id: company.id
+        company_id: companyID
       }])
       .select()
       .single();

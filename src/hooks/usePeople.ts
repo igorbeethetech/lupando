@@ -60,11 +60,11 @@ export function usePersonByToken(token: string) {
 }
 
 // Hook para criar uma nova pessoa
-export function useCreatePerson() {
+export function useCreatePerson(companyID: string) {
   const queryClient = useQueryClient();
   
   return useMutation({
-    mutationFn: () => createPerson(),
+    mutationFn: () => createPerson(companyID),
     onSuccess: () => {
       // Invalidar a query para recarregar os dados
       queryClient.invalidateQueries({ queryKey: ['people'] });
