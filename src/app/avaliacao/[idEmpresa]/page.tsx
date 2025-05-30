@@ -1,37 +1,38 @@
-"use client";
+// src/app/avaliacao/[idEmpresa]/page.tsx
+'use client';
 
 import { useEffect } from 'react';
-import { useCreatePerson } from '@/hooks/usePeople';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { SessionManager } from '@/lib/session';
 
-export default function AvaliacaoPage() {
+interface AvaliacaoPageProps {
+  params: {
+    idEmpresa: string;
+  };
+}
+
+export default function AvaliacaoPage({ params }: AvaliacaoPageProps) {
   const router = useRouter();
-  const params = useParams();
-  const idEmpresa = Array.isArray(params.idEmpresa) ? params.idEmpresa[0] : params.idEmpresa || ''; // Ensure it's a string
-  const createPerson = useCreatePerson(idEmpresa);
+  const { idEmpresa } = params;
 
   useEffect(() => {
-    if (idEmpresa && createPerson.mutate) {
-      createPerson.mutate(undefined, {
-        onSuccess: (data) => {
-          if (data && data.data && data.data.token) {
-            const token = data.data.token;
-            router.push(`/p/${token}`);
-          } else {
-            console.error('Token não encontrado na resposta:', data);
-          }
-        },
-        onError: (error) => {
-          console.error('Erro ao criar pessoa:', error);
-        },
-      });
+    if (idEmpresa) {
+      // Criar sessão de avaliação com token único
+      const token = SessionManager.createSession(idEmpresa);
+      
+      // Redirect imediato para a página pública do formulário
+      router.push(`/p/${token}`);
     }
-  }, [idEmpresa]);
+  }, [idEmpresa, router]);
 
+  // Loading state durante o redirect
   return (
-    <div>
-      <h1>Avaliando Empresa {idEmpresa}</h1>
-      <p>Redirecionando...</p>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+        <p className="text-gray-600 text-lg">Preparando sua avaliação...</p>
+        <p className="text-gray-500 text-sm mt-2">Você será redirecionado em instantes</p>
+      </div>
     </div>
   );
 }
